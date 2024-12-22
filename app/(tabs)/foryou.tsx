@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 export default function ForYou() {
   const theme = useColorScheme() ?? "light";
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       <View style={{ flex: 1 }}>
         <View style={{ width: "100%", backgroundColor: Colors[theme].background, height: 100, padding: 10, justifyContent: "center", alignItems: "center" }}>
           <Image src="https://avatar.iran.liara.run/public" style={{ width: 70, height: 70, borderRadius: 70 / 2, borderColor: "pink", borderWidth: 1 }} />
