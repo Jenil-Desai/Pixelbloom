@@ -1,72 +1,88 @@
-import { DownloadPicture } from "@/components/BottomSheet";
-import ImageCard from "@/components/ImageCard";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedView } from "@/components/ThemedView";
-import { useWallpapers, Wallpaper } from "@/hooks/useWallpapers";
+import { StyleSheet, Dimensions, Text, View, Image } from "react-native";
+import { useWallpapers } from "@/hooks/useWallpapers";
+import { SplitView } from "@/components/SpiltView";
+import Carousel from "react-native-reanimated-carousel";
 import { useState } from "react";
-import { SafeAreaView, Image, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { useCarousel } from "@/hooks/useCarousel";
+import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
+import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
+import React from "react";
 
-export default function Explore() {
+const TOPBAR_HEIGHT = 250;
+
+export default function explore() {
   const wallpapers = useWallpapers();
-  const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null);
+  const width = Dimensions.get("window").width;
+  const [yOffset, setScrollY] = useState(0);
+  const carouselItems = useCarousel();
+
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: interpolate(yOffset, [-TOPBAR_HEIGHT, 0, TOPBAR_HEIGHT], [1.5, 1, 1]),
+        },
+      ],
+    };
+  });
+
+  const textAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(yOffset, [-TOPBAR_HEIGHT, TOPBAR_HEIGHT / 2, TOPBAR_HEIGHT], [1, 1, 0]),
+    };
+  });
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ParallaxScrollView headerImage={<Image style={style.ParallaxScrollViewImageStyle} source={{ uri: "https://images.unsplash.com/photo-1721332153282-3be1f363074d?q=80&w=3435&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />} headerBackgroundColor={{ dark: "black", light: "white" }}>
-        <ThemedView style={style.container}>
-          <ThemedView style={style.innerContainer}>
-            <FlatList
-              data={wallpapers.filter((_, index) => index % 2 === 0)}
-              renderItem={({ item }) => (
-                <View style={style.imageContainer}>
-                  <ImageCard
-                    wallpaper={item}
-                    onPress={() => {
-                      setSelectedWallpaper(item);
-                    }}
-                  />
-                </View>
-              )}
-              keyExtractor={(item) => item.url}
-            />
-          </ThemedView>
-          <ThemedView style={style.innerContainer}>
-            <FlatList
-              data={wallpapers.filter((_, index) => index % 2 === 1)}
-              renderItem={({ item }) => (
-                <View style={style.imageContainer}>
-                  <ImageCard
-                    wallpaper={item}
-                    onPress={() => {
-                      setSelectedWallpaper(item);
-                    }}
-                  />
-                </View>
-              )}
-              keyExtractor={(item) => item.url}
-            />
-          </ThemedView>
-        </ThemedView>
-      </ParallaxScrollView>
-      {selectedWallpaper && <DownloadPicture onClose={() => setSelectedWallpaper(null)} wallpaper={selectedWallpaper} />}
-    </SafeAreaView>
+    <ThemedSafeAreaView style={{ flex: 1 }}>
+      <Animated.View style={[{ height: Math.max(0, TOPBAR_HEIGHT - yOffset) }, headerAnimatedStyle]}>
+        <Carousel
+          width={width}
+          data={carouselItems}
+          onSnapToItem={(index) => console.log("current index:", index)}
+          renderItem={({ index }) => (
+            <>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  justifyContent: "center",
+                }}
+              >
+                <Image source={{ uri: carouselItems[index].image }} style={{ height: TOPBAR_HEIGHT }} />
+              </View>
+
+              <LinearGradient colors={["transparent", "black"]} style={{ flex: 1, position: "absolute", zIndex: 10, height: TOPBAR_HEIGHT / 2, width: "100%", bottom: 0 }}>
+                <Animated.View style={textAnimatedStyle}>
+                  <Text style={[{ color: "white", paddingTop: TOPBAR_HEIGHT / 3, textAlign: "center", fontSize: 30, fontWeight: "600" }]}>{carouselItems[index].title}</Text>
+                </Animated.View>
+              </LinearGradient>
+            </>
+          )}
+        />
+      </Animated.View>
+      <View style={{ borderRadius: 20 }}>
+        <SplitView
+          onScroll={(yOffset) => {
+            setScrollY(yOffset);
+          }}
+          wallpapers={wallpapers}
+        />
+      </View>
+    </ThemedSafeAreaView>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "row",
     flex: 1,
   },
   innerContainer: {
-    flex: 0.5,
-    padding: 4,
+    flex: 1,
+    padding: 10,
   },
   imageContainer: {
     paddingVertical: 10,
-  },
-  ParallaxScrollViewImageStyle: {
-    flex: 1,
   },
 });
