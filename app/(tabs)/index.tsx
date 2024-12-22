@@ -1,36 +1,72 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Library from "../library";
-import Liked from "../liked";
-import Suggested from "../suggested";
-import { Image, SafeAreaView, StyleSheet, View } from "react-native";
+import { DownloadPicture } from "@/components/BottomSheet";
+import ImageCard from "@/components/ImageCard";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedView } from "@/components/ThemedView";
+import { useWallpapers, Wallpaper } from "@/hooks/useWallpapers";
+import { useState } from "react";
+import { SafeAreaView, Image, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
-const Tab = createMaterialTopTabNavigator();
-
-export default function ForYou() {
+export default function Explore() {
+  const wallpapers = useWallpapers();
+  const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <View style={{ width: "100%", backgroundColor: "white", height: 100, padding: 10, justifyContent: "center", alignItems: "center" }}>
-          <Image src="https://avatar.iran.liara.run/public" style={{ width: 70, height: 70, borderRadius: 70 / 2, borderColor: "pink", borderWidth: 1 }} />
-        </View>
-        <Tab.Navigator initialRouteName={"Suggested"} screenOptions={{ tabBarLabelStyle: style.tabBarLabelStyle, tabBarIndicatorStyle: style.tabBarIndicatorStyle }}>
-          <Tab.Screen name="Suggested" component={Suggested} />
-          <Tab.Screen name="Liked" component={Liked} />
-          <Tab.Screen name="Library" component={Library} />
-        </Tab.Navigator>
-      </View>
+      <ParallaxScrollView headerImage={<Image style={style.ParallaxScrollViewImageStyle} source={{ uri: "https://images.unsplash.com/photo-1721332153282-3be1f363074d?q=80&w=3435&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />} headerBackgroundColor={{ dark: "black", light: "white" }}>
+        <ThemedView style={style.container}>
+          <ThemedView style={style.innerContainer}>
+            <FlatList
+              data={wallpapers.filter((_, index) => index % 2 === 0)}
+              renderItem={({ item }) => (
+                <View style={style.imageContainer}>
+                  <ImageCard
+                    wallpaper={item}
+                    onPress={() => {
+                      setSelectedWallpaper(item);
+                    }}
+                  />
+                </View>
+              )}
+              keyExtractor={(item) => item.url}
+            />
+          </ThemedView>
+          <ThemedView style={style.innerContainer}>
+            <FlatList
+              data={wallpapers.filter((_, index) => index % 2 === 1)}
+              renderItem={({ item }) => (
+                <View style={style.imageContainer}>
+                  <ImageCard
+                    wallpaper={item}
+                    onPress={() => {
+                      setSelectedWallpaper(item);
+                    }}
+                  />
+                </View>
+              )}
+              keyExtractor={(item) => item.url}
+            />
+          </ThemedView>
+        </ThemedView>
+      </ParallaxScrollView>
+      {selectedWallpaper && <DownloadPicture onClose={() => setSelectedWallpaper(null)} wallpaper={selectedWallpaper} />}
     </SafeAreaView>
   );
 }
 
 const style = StyleSheet.create({
-  tabBarLabelStyle: {
-    fontWeight: "800",
-    fontSize: 17,
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    flex: 1,
   },
-  tabBarIndicatorStyle: {
-    borderRadius: 5,
-    height: 7,
-    backgroundColor: "pink",
+  innerContainer: {
+    flex: 0.5,
+    padding: 4,
+  },
+  imageContainer: {
+    paddingVertical: 10,
+  },
+  ParallaxScrollViewImageStyle: {
+    flex: 1,
   },
 });
