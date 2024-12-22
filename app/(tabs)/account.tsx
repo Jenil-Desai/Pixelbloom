@@ -86,8 +86,8 @@ function LoginButtons() {
 function Header() {
   return (
     <ThemedView style={styles.topbar}>
-      <ThemedText style={styles.textBig}>Panels</ThemedText>
-      <ThemedText>Sign in to save your data</ThemedText>
+      <ThemedText style={styles.textBig}>Pixel Bloom</ThemedText>
+      <ThemedText>Sign in to save your data (Developing)</ThemedText>
     </ThemedView>
   );
 }
