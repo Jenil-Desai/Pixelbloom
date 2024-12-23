@@ -75,7 +75,7 @@ Follow the official React Native setup guide for your platform:
 
 ![Pixel Bloom Mockup](./Screenshots/Pixel_Bloom_Mockup.png)
 
-- [Download Now]()
+- [Download Now](https://github.com/Jenil-Desai/Pixelbloom/releases/tag/v2.1.2)
 
 ---
 
