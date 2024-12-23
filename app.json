@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sylvorn.pixelbloom"
     },
     "web": {
       "bundler": "metro",
@@ -39,6 +40,14 @@
     },
     "splash": {
       "image": "./assets/images/splash-icon.png"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ee337bdf-6774-4b0b-b703-07610d896ca7"
+      }
     }
   }
 }
