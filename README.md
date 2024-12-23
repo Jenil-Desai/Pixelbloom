@@ -73,7 +73,7 @@ Follow the official React Native setup guide for your platform:
 
 ## 🔗 Demo & Screenshots
 
-![Pixel Bloom Mockup]("./Screenshots/Pixel_Bloom_Mockup.png")
+![Pixel Bloom Mockup](./Screenshots/Pixel_Bloom_Mockup.png)
 
 - [Download Now]()
 
