@@ -1,4 +1,4 @@
-import { Wallpaper } from "@/hooks/useWallpapers";
+import { Wallpaper } from "@/hooks/fetchWallpapers";
 import { ThemedView } from "./ThemedView";
 import { View, StyleSheet, FlatList } from "react-native";
 import ImageCard from "./ImageCard";
@@ -42,7 +42,7 @@ export function SplitView({ wallpapers, onScroll }: { wallpapers: Wallpaper[]; o
             </ThemedView>
           </ThemedView>
         )}
-        keyExtractor={(item) => item[0].name}
+        keyExtractor={(item) => item[0].id}
       />
       {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)} />}
     </>

@@ -1,14 +1,51 @@
 import { SplitView } from "@/components/SpiltView";
 import { ThemedView } from "@/components/ThemedView";
-import { useLibraryWallpapers } from "@/hooks/useWallpapers";
-import { StyleSheet } from "react-native";
+import { getBookmarkedWallpapers, Wallpaper } from "@/hooks/fetchWallpapers";
+import {Alert, StyleSheet, Text, useColorScheme} from "react-native";
+import {useRouter} from "expo-router";
+import {useAuth} from "@/context/AuthContext";
+import {useEffect, useState} from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {Colors} from "@/constants/Colors";
 
 export default function Library() {
-  const walletpapers = useLibraryWallpapers();
+  const scheme = useColorScheme();
+  const theme = Colors[scheme ?? "light"];
+  const router = useRouter();
+  const {isLoggedIn} = useAuth();
+  const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.replace("/");
+      return;
+    }
+    setIsLoading(true);
+    async function getWallpaper() {
+      try {
+        const wp = await getBookmarkedWallpapers();
+        setWallpapers(wp);
+      } catch (error) {
+        Alert.alert("Error", (error as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getWallpaper();
+  }, [isLoggedIn]);
 
   return (
     <ThemedView style={styles.container}>
-      <SplitView wallpapers={walletpapers} />
+      {wallpapers.length == 0 && !isLoading ? (
+          <ThemedView style={[styles.container, { backgroundColor: theme.background }]}>
+            <Ionicons name={"bookmark-outline"} size={50} color={theme.indicator} />
+            <Text style={[styles.text, { color: theme.indicator }]}>No bookmarked wallpapers</Text>
+          </ThemedView>
+      ) : (
+          <SplitView wallpapers={wallpapers} />
+      )}
     </ThemedView>
   );
 }
@@ -16,5 +53,11 @@ export default function Library() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+    marginTop: 10,
   },
 });

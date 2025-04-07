@@ -1,10 +1,11 @@
 import { Colors } from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/Ionicons";
-import { Tabs } from "expo-router";
+import {Tabs} from "expo-router";
 import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const theme = useColorScheme() ?? "light";
+
   return (
     <Tabs
       screenOptions={{
@@ -14,7 +15,6 @@ export default function TabLayout() {
           backgroundColor: Colors[theme].background,
         },
       }}
-      initialRouteName="index"
     >
       <Tabs.Screen
         name="foryou"
