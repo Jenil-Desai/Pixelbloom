@@ -22,29 +22,29 @@ export default function Liked() {
       return;
     }
     setIsLoading(true);
-    async function getWallpaper() {
-      try {
-        const wp = await getLikedWallpapers();
-        setWallpapers(wp);
-      } catch (error) {
-        Alert.alert("Error", (error as Error).message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     getWallpaper();
   }, [isLoggedIn]);
+
+  async function getWallpaper() {
+    try {
+      const wp = await getLikedWallpapers();
+      setWallpapers(wp);
+    } catch (error) {
+      Alert.alert("Error", (error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <ThemedView style={styles.container}>
       {wallpapers.length == 0 && !isLoading ? (
-          <ThemedView style={[styles.container, { backgroundColor: theme.background }]}>
+          <ThemedView style={{ backgroundColor: theme.background, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <Ionicons name={"heart-dislike-outline"} size={50} color={theme.indicator} />
             <Text style={[styles.text, { color: theme.indicator }]}>No liked wallpapers</Text>
           </ThemedView>
       ) : (
-          <SplitView wallpapers={wallpapers} />
+          <SplitView wallpapers={wallpapers} onRefresh={getWallpaper}/>
       )}
     </ThemedView>
   );
@@ -53,8 +53,6 @@ export default function Liked() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   text: {
     fontSize: 16,

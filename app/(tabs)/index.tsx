@@ -29,19 +29,19 @@ export default function explore() {
             return;
         }
         setIsLoading(true);
-        async function getWallpaper() {
-            try {
-                const wp = await getWallpapers();
-                setWallpapers(wp);
-            } catch (error) {
-                Alert.alert("Error", (error as Error).message);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
         getWallpaper();
     }, [isLoggedIn]);
+
+    async function getWallpaper() {
+        try {
+            const wp = await getWallpapers();
+            setWallpapers(wp);
+        } catch (error) {
+            Alert.alert("Error", (error as Error).message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     const headerAnimatedStyle = useAnimatedStyle(() => {
         return {
@@ -97,6 +97,7 @@ export default function explore() {
                         setScrollY(yOffset);
                     }}
                     wallpapers={wallpapers}
+                    onRefresh={getWallpaper}
                 />
             </View>
         </ThemedSafeAreaView>

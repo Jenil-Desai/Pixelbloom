@@ -18,23 +18,23 @@ export default function Suggested() {
       return;
     }
     setIsLoading(true);
-    async function getWallpaper() {
-      try {
-        const wp = await getWallpapers();
-        setWallpapers(wp);
-      } catch (error) {
-        Alert.alert("Error", (error as Error).message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     getWallpaper();
   }, [isLoggedIn]);
 
+  async function getWallpaper() {
+    try {
+      const wp = await getWallpapers();
+      setWallpapers(wp);
+    } catch (error) {
+      Alert.alert("Error", (error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <ThemedView style={styles.container}>
-      <SplitView wallpapers={wallpapers} />
+      <SplitView wallpapers={wallpapers} onRefresh={getWallpaper} />
     </ThemedView>
   );
 }

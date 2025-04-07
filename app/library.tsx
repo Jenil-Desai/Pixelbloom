@@ -22,19 +22,19 @@ export default function Library() {
       return;
     }
     setIsLoading(true);
-    async function getWallpaper() {
-      try {
-        const wp = await getBookmarkedWallpapers();
-        setWallpapers(wp);
-      } catch (error) {
-        Alert.alert("Error", (error as Error).message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     getWallpaper();
   }, [isLoggedIn]);
+
+  async function getWallpaper() {
+    try {
+      const wp = await getBookmarkedWallpapers();
+      setWallpapers(wp);
+    } catch (error) {
+      Alert.alert("Error", (error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <ThemedView style={styles.container}>
@@ -44,7 +44,7 @@ export default function Library() {
             <Text style={[styles.text, { color: theme.indicator }]}>No bookmarked wallpapers</Text>
           </ThemedView>
       ) : (
-          <SplitView wallpapers={wallpapers} />
+          <SplitView wallpapers={wallpapers} onRefresh={getWallpaper}/>
       )}
     </ThemedView>
   );
