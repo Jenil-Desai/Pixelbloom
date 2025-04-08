@@ -95,6 +95,8 @@ export default function LoginScreen() {
                     value={email}
                     onChangeText={setEmail}
                     readOnly={isLoading}
+                    textContentType={"emailAddress"}
+                    keyboardType={"email-address"}
                 />
                 <TextInput
                     style={[styles.input, { borderColor: "#ccc", color: theme.text }]}
