@@ -43,15 +43,17 @@ export function SplitView({ wallpapers, onScroll, onRefresh }: { wallpapers: Wal
         }
     };
 
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        await onRefresh();
+        setRefreshing(false);
+    };
+
     return (
         <>
             <FlatList
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={() => {
-                        setRefreshing(true);
-                        onRefresh();
-                        setRefreshing(false);
-                    }} />
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
                 }
                 onScroll={(e) => {
                     let yOffset = e.nativeEvent.contentOffset.y / 1;

@@ -2,20 +2,6 @@ import axios from "axios";
 import { BASE_ENDPOINT } from "@/constants/BaseEndpoint";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export interface Wallpaper {
-    id: string;
-    title: string;
-    image_url: string;
-    likes: number;
-    platform: string;
-    artists_id: string;
-    categories_id: string;
-    category_name: string;
-    artist_name: string;
-    created_at: string;
-    updated_at: string;
-}
-
 export async function likeWallpaper(wallpaperId: string): Promise<void> {
     const token = await AsyncStorage.getItem("token");
     if (!token) {

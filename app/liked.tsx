@@ -27,7 +27,7 @@ export default function Liked() {
 
   async function getWallpaper() {
     try {
-      const wp = await getLikedWallpapers();
+      const wp = await getLikedWallpapers(true);
       setWallpapers(wp);
     } catch (error) {
       Alert.alert("Error", (error as Error).message);

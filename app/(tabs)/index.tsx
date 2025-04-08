@@ -34,7 +34,7 @@ export default function explore() {
 
     async function getWallpaper() {
         try {
-            const wp = await getWallpapers();
+            const wp = await getWallpapers(true);
             setWallpapers(wp);
         } catch (error) {
             Alert.alert("Error", (error as Error).message);

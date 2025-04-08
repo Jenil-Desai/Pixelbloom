@@ -20,7 +20,10 @@ let cachedWallpapers: Wallpaper[] | null = null;
 let cachedLikedWallpapers: Wallpaper[] | null = null;
 let cachedBookmarkedWallpapers: Wallpaper[] | null = null;
 
-export async function getWallpapers(): Promise<Wallpaper[]> {
+export async function getWallpapers(forceRefresh: boolean = false): Promise<Wallpaper[]> {
+  if (forceRefresh) {
+    cachedWallpapers = null;
+  }
   if (cachedWallpapers) {
     return cachedWallpapers;
   }
@@ -53,7 +56,11 @@ export async function getWallpapers(): Promise<Wallpaper[]> {
   }
 }
 
-export async function getLikedWallpapers(): Promise<Wallpaper[]> {
+export async function getLikedWallpapers(forceRefresh: boolean = false): Promise<Wallpaper[]> {
+  if (forceRefresh) {
+    cachedLikedWallpapers = null;
+  }
+
   if (cachedLikedWallpapers) {
     return cachedLikedWallpapers;
   }
@@ -86,7 +93,11 @@ export async function getLikedWallpapers(): Promise<Wallpaper[]> {
   }
 }
 
-export async function getBookmarkedWallpapers(): Promise<Wallpaper[]> {
+export async function getBookmarkedWallpapers(forceRefresh: boolean = false): Promise<Wallpaper[]> {
+  if (forceRefresh) {
+    cachedBookmarkedWallpapers = null;
+  }
+
   if (cachedBookmarkedWallpapers) {
     return cachedBookmarkedWallpapers;
   }
