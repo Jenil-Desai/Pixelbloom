@@ -14,16 +14,17 @@ import {BASE_ENDPOINT} from "@/constants/BaseEndpoint";
 import {useRouter} from "expo-router";
 import {useAuth} from "@/context/AuthContext";
 
-type LoginResponse = {
-    token?: string
+type RegisterResponse = {
+    message?: string
     error?: string
 }
 
 export default function LoginScreen() {
-    const {login,isLoggedIn} = useAuth();
+    const {isLoggedIn} = useAuth();
     const colorScheme = useColorScheme();
     const router = useRouter();
     const theme = Colors[colorScheme ?? "light"];
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -49,15 +50,15 @@ export default function LoginScreen() {
         }
 
         try {
-            const result = await axios.post<LoginResponse>(BASE_ENDPOINT + "/auth/signin",{
+            const result = await axios.post<RegisterResponse>(BASE_ENDPOINT + "/auth/signup",{
+                name: name,
                 email: email,
                 password: password,
             });
             const response = result.data;
 
-            if (response.token) {
-                await login(response.token);
-                router.replace("/(tabs)");
+            if (response.message) {
+                router.replace("/(auth)/login");
                 setIsLoading(false);
                 return;
             }
@@ -86,7 +87,16 @@ export default function LoginScreen() {
             </ImageBackground>
 
             <View style={[styles.formWrapper, { backgroundColor: theme.background }]}>
-                <Text style={[styles.formTitle, { color: theme.text }]}>Log in</Text>
+                <Text style={[styles.formTitle, { color: theme.text }]}>Register Now</Text>
+
+                <TextInput
+                    style={[styles.input, { borderColor: "#ccc", color: theme.text }]}
+                    placeholder="Name"
+                    placeholderTextColor="#999"
+                    value={name}
+                    onChangeText={setName}
+                    readOnly={isLoading}
+                />
 
                 <TextInput
                     style={[styles.input, { borderColor: "#ccc", color: theme.text }]}
@@ -107,12 +117,12 @@ export default function LoginScreen() {
                 />
 
                 <Pressable style={[styles.button, { backgroundColor: theme.tint }]} onPress={handleLogin} disabled={isLoading}>
-                    <Text style={styles.buttonText}>Log in</Text>
+                    <Text style={styles.buttonText}>Register</Text>
                 </Pressable>
 
                 <Text style={[styles.signupText, { color: theme.tabIconDefault }]}>
-                    Don’t have an account?{" "}
-                    <Text style={{ color: Colors.light.tint }} onPress={() => router.push("/(auth)/register")}>Sign up</Text>
+                    Already had an account ?{" "}
+                    <Text style={{ color: Colors.light.tint }} onPress={() => router.push("/(auth)/login")}>Log In</Text>
                 </Text>
             </View>
         </View>

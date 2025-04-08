@@ -5,12 +5,13 @@ import {Alert, StyleSheet} from "react-native";
 import {useRouter} from "expo-router";
 import {useAuth} from "@/context/AuthContext";
 import {useEffect, useState} from "react";
+import SpiltViewSkeletonLoader from "@/components/skeletons/SpiltViewSkeletonLoader";
 
 export default function Suggested() {
   const router = useRouter();
   const {isLoggedIn} = useAuth();
   const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
-  const [_, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -31,6 +32,12 @@ export default function Suggested() {
       setIsLoading(false);
     }
   }
+
+  if (isLoading) return (
+    <ThemedView style={styles.container}>
+      <SpiltViewSkeletonLoader />
+    </ThemedView>
+  )
 
   return (
     <ThemedView style={styles.container}>

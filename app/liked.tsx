@@ -7,6 +7,7 @@ import {useRouter} from "expo-router";
 import {useAuth} from "@/context/AuthContext";
 import {Colors} from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import SpiltViewSkeletonLoader from "@/components/skeletons/SpiltViewSkeletonLoader";
 
 export default function Liked() {
   const scheme = useColorScheme();
@@ -35,6 +36,12 @@ export default function Liked() {
       setIsLoading(false);
     }
   }
+
+  if (isLoading) return (
+      <ThemedView style={styles.container}>
+        <SpiltViewSkeletonLoader />
+      </ThemedView>
+  )
 
   return (
     <ThemedView style={styles.container}>

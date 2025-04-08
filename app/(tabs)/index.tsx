@@ -10,6 +10,7 @@ import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import React from "react";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
+import ExploreSkeletonLoader from "@/components/skeletons/ExploreSkeletonLoader";
 
 const TOPBAR_HEIGHT = 250;
 
@@ -25,8 +26,7 @@ export default function explore() {
 
     useEffect(() => {
         if (!isLoggedIn) {
-            router.replace("/");
-            return;
+            router.replace("/")
         }
         setIsLoading(true);
         getWallpaper();
@@ -59,9 +59,7 @@ export default function explore() {
         };
     });
 
-    if (isLoading) {
-        return <Text>Loading...</Text>;
-    }
+    if (isLoading) return <ExploreSkeletonLoader />;
 
     return (
         <ThemedSafeAreaView style={{ flex: 1 }}>

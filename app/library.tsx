@@ -7,6 +7,7 @@ import {useAuth} from "@/context/AuthContext";
 import {useEffect, useState} from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {Colors} from "@/constants/Colors";
+import SpiltViewSkeletonLoader from "@/components/skeletons/SpiltViewSkeletonLoader";
 
 export default function Library() {
   const scheme = useColorScheme();
@@ -35,6 +36,12 @@ export default function Library() {
       setIsLoading(false);
     }
   }
+
+  if (isLoading) return (
+      <ThemedView style={styles.container}>
+        <SpiltViewSkeletonLoader />
+      </ThemedView>
+  )
 
   return (
     <ThemedView style={styles.container}>
