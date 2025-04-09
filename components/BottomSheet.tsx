@@ -1,5 +1,5 @@
 import React,{ useRef } from "react";
-import { View, Image, StyleSheet, useColorScheme, Pressable, Text } from "react-native";
+import {Share, View, Image, StyleSheet, useColorScheme, Pressable, Text} from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Wallpaper } from "@/hooks/fetchWallpapers";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -7,11 +7,16 @@ import { Colors } from "@/constants/Colors";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 
-// Keep all imports the same
-
 export const DownloadPicture = ({ onClose, wallpaper }: { onClose: () => void; wallpaper: Wallpaper }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const theme = useColorScheme() ?? "light";
+
+  async function handleShare() {
+    await Share.share({
+        title: "Explore Stunning Wallpapers with PixelBloom!",
+        message: "🌟 Transform your device with **PixelBloom** - the ultimate wallpaper app! 🖼️ Featuring high-quality images, 🎨 artist details, and 📥 easy downloads. 🚀 Get it now at: https://pixelbloom-website.vercel.app/ 🌐",
+    });
+  }
 
   return (
       <BottomSheet
@@ -36,8 +41,8 @@ export const DownloadPicture = ({ onClose, wallpaper }: { onClose: () => void; w
                   style={styles.icon}
               />
               <View style={styles.topbarInner}>
-                <Ionicons name="heart" size={24} color="#fff" style={styles.icon} />
-                <Ionicons name="share" size={24} color="#fff" style={[{ marginLeft: 6 }, styles.icon]} />
+                <Ionicons name="bookmark-outline" size={24} color="#fff" style={styles.icon} />
+                <Ionicons name="share" size={24} color="#fff" style={[{ marginLeft: 6 }, styles.icon]} onPress={handleShare} />
               </View>
             </View>
 

@@ -6,7 +6,7 @@ import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
 import React from "react";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
-import ExploreSkeletonLoader from "@/components/skeletons/ExploreSkeletonLoader";
+import SplitViewSkeletonLoader from "@/components/skeletons/SpiltViewSkeletonLoader";
 
 export default function explore() {
     const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
@@ -34,7 +34,11 @@ export default function explore() {
         }
     }
 
-    if (isLoading) return <ExploreSkeletonLoader />;
+    if (isLoading) return (
+        <ThemedSafeAreaView style={{flex: 1}}>
+            <SplitViewSkeletonLoader />
+        </ThemedSafeAreaView>
+    );
 
     return (
         <ThemedSafeAreaView style={{ flex: 1 }}>

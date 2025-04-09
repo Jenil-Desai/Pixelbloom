@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { Dimensions, StyleSheet, View, Animated } from "react-native";
+import { Dimensions, StyleSheet, Animated } from "react-native";
+import {ThemedView} from "@/components/ThemedView";
 
 const SplitViewSkeletonLoader = () => {
     const shimmerValue = useRef(new Animated.Value(0)).current;
@@ -27,14 +28,14 @@ const SplitViewSkeletonLoader = () => {
     });
 
     return (
-        <View style={styles.splitViewSkeleton}>
-            {[...Array(6)].map((_, index) => (
+        <ThemedView style={styles.splitViewSkeleton}>
+            {[...Array(10)].map((_, index) => (
                 <Animated.View
                     key={index}
                     style={[styles.wallpaperCard, { backgroundColor: shimmerBackground }]}
                 />
             ))}
-        </View>
+        </ThemedView>
     );
 };
 
@@ -46,9 +47,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     wallpaperCard: {
-        height: 150,
+        height: 220,
         width: Dimensions.get("window").width / 2 - 20,
-        borderRadius: 10,
+        borderRadius: 20,
         marginBottom: 10,
     },
 });
