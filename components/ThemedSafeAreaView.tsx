@@ -1,9 +1,20 @@
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {Edge, SafeAreaView} from "react-native-safe-area-context";
+import {useColorScheme, ViewStyle} from "react-native";
+import {Colors} from "@/constants/Colors";
 
-export function ThemedSafeAreaView({ children, style = {} }: { children: React.ReactNode; style?: any }) {
-  const theme = useColorScheme() ?? "light";
+interface Props {
+    style?: ViewStyle;
+    edges?: Edge[];
+    children: React.ReactNode;
+}
 
-  return <SafeAreaView edges={['top']} style={{ backgroundColor: Colors[theme].background, ...style }}>{children}</SafeAreaView>;
+export function ThemedSafeAreaView({style, edges = ['top'], children}: Props) {
+    const colorScheme = useColorScheme() ?? 'light';
+
+    return (<SafeAreaView
+            style={[{flex: 1, backgroundColor: Colors[colorScheme].background}, style]}
+            edges={edges}
+        >
+            {children}
+        </SafeAreaView>);
 }
