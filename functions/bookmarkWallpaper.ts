@@ -28,3 +28,30 @@ export async function bookmarkWallpaper(wallpaperId: string): Promise<void> {
         }
     }
 }
+
+export async function unBookmarkWallpaper(wallpaperId: string): Promise<void> {
+    const token = await AsyncStorage.getItem("token");
+    if (!token) {
+        console.error("Token is not available");
+        return;
+    }
+
+    try {
+        await axios.delete(`${BASE_ENDPOINT}/wallpapers/${wallpaperId}/bookmark`,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            console.error("Error removing bookmark wallpaper:", e.response.data);
+            throw new Error(e.response.data.message || "Error removing bookmark wallpaper");
+        } else if (e instanceof Error) {
+            console.error("Error removing bookmark wallpaper:", e.message);
+            throw new Error(e.message);
+        } else {
+            console.error("Unknown error removing bookmark wallpaper");
+            throw new Error("Unknown error removing bookmark wallpaper");
+        }
+    }
+}

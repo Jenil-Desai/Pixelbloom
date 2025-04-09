@@ -28,7 +28,7 @@ export default function Library() {
 
   async function getWallpaper() {
     try {
-      const wp = await getBookmarkedWallpapers();
+      const wp = await getBookmarkedWallpapers(true);
       setWallpapers(wp);
     } catch (error) {
       Alert.alert("Error", (error as Error).message);
@@ -46,7 +46,7 @@ export default function Library() {
   return (
     <ThemedView style={styles.container}>
       {wallpapers.length == 0 && !isLoading ? (
-          <ThemedView style={[styles.container, { backgroundColor: theme.background }]}>
+          <ThemedView style={[styles.container, { backgroundColor: theme.background,justifyContent: "center", alignItems: "center" }]}>
             <Ionicons name={"bookmark-outline"} size={50} color={theme.indicator} />
             <Text style={[styles.text, { color: theme.indicator }]}>No bookmarked wallpapers</Text>
           </ThemedView>
@@ -60,8 +60,6 @@ export default function Library() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   text: {
     fontSize: 16,

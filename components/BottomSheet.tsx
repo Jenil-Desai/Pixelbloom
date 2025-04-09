@@ -1,15 +1,39 @@
-import React,{ useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Share, View, Image, StyleSheet, useColorScheme, Pressable, Text} from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { Wallpaper } from "@/hooks/fetchWallpapers";
+import {getBookmarkedWallpapers, Wallpaper} from "@/hooks/fetchWallpapers";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "@/constants/Colors";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
+import {bookmarkWallpaper, unBookmarkWallpaper} from "@/functions/bookmarkWallpaper";
 
 export const DownloadPicture = ({ onClose, wallpaper, snapPoint = "95%" }: { onClose: () => void; wallpaper: Wallpaper, snapPoint?: string }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const theme = useColorScheme() ?? "light";
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    async function checkBookmarkStatus() {
+      const bookmarkedWallpapers = await getBookmarkedWallpapers(true);
+      const isBookmarked = bookmarkedWallpapers.some((item) => item.id === wallpaper.id);
+        setIsBookmarked(isBookmarked);
+    }
+    checkBookmarkStatus();
+  }, [wallpaper.id]);
+
+  const handleBookmarkToggle = async () => {
+    try {
+      if (isBookmarked) {
+        await unBookmarkWallpaper(wallpaper.id);
+      } else {
+        await bookmarkWallpaper(wallpaper.id);
+      }
+      setIsBookmarked(!isBookmarked);
+    } catch (error) {
+      console.error("Error toggling bookmark status:", error);
+    }
+  };
 
   async function handleShare() {
     await Share.share({
@@ -41,8 +65,8 @@ export const DownloadPicture = ({ onClose, wallpaper, snapPoint = "95%" }: { onC
                   style={styles.icon}
               />
               <View style={styles.topbarInner}>
-                <Ionicons name="bookmark-outline" size={24} color="#fff" style={styles.icon} />
-                <Ionicons name="share" size={24} color="#fff" style={[{ marginLeft: 6 }, styles.icon]} onPress={handleShare} />
+                <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} size={24} color="#fff" style={styles.icon} onPress={handleBookmarkToggle} />
+                <Ionicons name="share-outline" size={24} color="#fff" style={[{ marginLeft: 6 }, styles.icon]} onPress={handleShare} />
               </View>
             </View>
 
