@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "space-between",
-        paddingHorizontal: 10,
+        padding: 10,
     },
     wallpaperCard: {
-        height: 220,
+        height: 300,
         width: Dimensions.get("window").width / 2 - 20,
-        borderRadius: 20,
+        borderRadius: 10,
         marginBottom: 10,
     },
 });
