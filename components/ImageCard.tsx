@@ -1,8 +1,7 @@
 import { Wallpaper } from "@/hooks/fetchWallpapers";
-import {Image, StyleSheet, TouchableOpacity, useColorScheme, View} from "react-native";
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "@/constants/Colors";
 
 interface ImageCardProps {
   wallpaper: Wallpaper;
@@ -18,7 +17,7 @@ export default function ImageCard({ wallpaper, onPress,onLikeToggle, isLiked }: 
         <View style={style.labelContainer}>
           <ThemedText style={style.label}>{wallpaper.title.slice(0, 10) + "..."}</ThemedText>
           <TouchableOpacity style={style.iconContainer} onPress={onLikeToggle}>
-            <Ionicons name={"heart"} size={18} color={isLiked ? "red" : Colors.light.icon} />
+            <Ionicons name={"heart"} size={18} color={isLiked ? "pink" : "gray"} />
           </TouchableOpacity>
         </View>
     </TouchableOpacity>
@@ -28,8 +27,8 @@ export default function ImageCard({ wallpaper, onPress,onLikeToggle, isLiked }: 
 const style = StyleSheet.create({
   image: {
     flex: 1,
-    height: 220,
-    borderRadius: 20,
+    height: 300,
+    borderRadius: 10,
   },
   labelContainer: {
     flexDirection: "row",
@@ -39,8 +38,8 @@ const style = StyleSheet.create({
     bottom: 0,
     width: "100%",
     padding: 10,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   label: {
     color: "white",

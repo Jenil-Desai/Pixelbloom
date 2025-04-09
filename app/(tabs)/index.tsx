@@ -7,8 +7,13 @@ import React from "react";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 import SplitViewSkeletonLoader from "@/components/skeletons/SpiltViewSkeletonLoader";
+import {useAtom} from "jotai";
+import { selectedWallpaperAtom} from "@/store/store";
+import {DownloadPicture} from "@/components/BottomSheet";
 
 export default function explore() {
+    const [selectedWallpaper,setSelectedWallpaper] = useAtom(selectedWallpaperAtom);
+
     const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -48,6 +53,7 @@ export default function explore() {
                     onRefresh={getWallpaper}
                 />
             </View>
+            {selectedWallpaper  && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)} snapPoint={"85%"}/>}
         </ThemedSafeAreaView>
     );
 }

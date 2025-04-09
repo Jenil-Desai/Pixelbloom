@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 
-export const DownloadPicture = ({ onClose, wallpaper }: { onClose: () => void; wallpaper: Wallpaper }) => {
+export const DownloadPicture = ({ onClose, wallpaper, snapPoint = "95%" }: { onClose: () => void; wallpaper: Wallpaper, snapPoint?: string }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const theme = useColorScheme() ?? "light";
 
@@ -21,7 +21,7 @@ export const DownloadPicture = ({ onClose, wallpaper }: { onClose: () => void; w
   return (
       <BottomSheet
           onClose={onClose}
-          snapPoints={["95%"]}
+          snapPoints={[snapPoint]}
           ref={bottomSheetRef}
           enablePanDownToClose={true}
           handleIndicatorStyle={{ display: "none" }}

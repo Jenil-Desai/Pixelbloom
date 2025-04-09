@@ -5,11 +5,17 @@ import Suggested from "../suggested";
 import { Image, useColorScheme, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import {ThemedSafeAreaView} from "@/components/ThemedSafeAreaView";
+import {DownloadPicture} from "@/components/BottomSheet";
+import React from "react";
+import {useAtom} from "jotai/index";
+import {selectedWallpaperAtom} from "@/store/store";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
   const theme = useColorScheme() ?? "light";
+    const [selectedWallpaper,setSelectedWallpaper] = useAtom(selectedWallpaperAtom);
+
   return (
     <ThemedSafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       <View style={{ flex: 1 }}>
@@ -33,6 +39,7 @@ export default function ForYou() {
           <Tab.Screen name="Liked" component={Liked} />
           <Tab.Screen name="Library" component={Library} />
         </Tab.Navigator>
+          {selectedWallpaper  && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)} />}
       </View>
     </ThemedSafeAreaView>
   );

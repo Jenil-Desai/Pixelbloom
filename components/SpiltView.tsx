@@ -5,10 +5,11 @@ import {View, StyleSheet, FlatList, RefreshControl} from "react-native";
 import ImageCard from "./ImageCard";
 import { useState, useEffect } from "react";
 import { likeWallpaper, unlikeWallpaper } from "@/functions/likeWallpaper";
-import {DownloadPicture} from "@/components/BottomSheet";
+import {useAtom} from "jotai";
+import {selectedWallpaperAtom} from "@/store/store";
 
 export function SplitView({ wallpapers, onScroll, onRefresh }: { wallpapers: Wallpaper[]; onScroll?: (yOffset: number) => void, onRefresh: () => void }) {
-    const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(null);
+    const [_,setSelectedWallpaper] = useAtom(selectedWallpaperAtom);
     const [likedWallpapers, setLikedWallpapers] = useState<{ [key: string]: boolean }>({});
     const [refreshing, setRefreshing] = useState(false);
 
@@ -92,7 +93,7 @@ export function SplitView({ wallpapers, onScroll, onRefresh }: { wallpapers: Wal
                 )}
                 keyExtractor={(item) => item[0].id}
             />
-            {selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)} />}
+            {/*{selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} onClose={() => setSelectedWallpaper(null)} />}*/}
         </>
     );
 }
@@ -107,6 +108,6 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     imageContainer: {
-        paddingVertical: 10,
+        paddingVertical: 0,
     },
 });
