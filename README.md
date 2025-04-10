@@ -39,10 +39,13 @@ This project leverages the following technologies:
 
 The following packages and libraries are used in this project:
 
-| Package / Library          | Purpose                             |
-| -------------------------- | ----------------------------------- |
-| `React Native Bottomsheet` | Smooth and responsive bottom sheets |
-| `React Native Carousel`    | Display carousel for wallpapers     |
+| Package / Library            | Purpose                             |
+|------------------------------|-------------------------------------|
+| `React Native Bottomsheet`   | Smooth and responsive bottom sheets |
+| `React Native Carousel`      | Display carousel for wallpapers     |
+| `React Native Local Storage` | Storing User Data & Preferences     |
+| `Jotai`                      | State Management Tool               |
+| `Axios`                      | For Sending Request To Backend      |
 
 ---
 
@@ -73,9 +76,10 @@ Follow the official React Native setup guide for your platform:
 
 ## 🔗 Demo & Screenshots
 
-![Pixel Bloom Mockup](./Screenshots/Pixel_Bloom_Mockup.png)
+![Pixel Bloom Mockup Version 1](./Screenshots/Pixel_Bloom_Mockup.png)
+![Pixel Bloom Mockup Version 2](./Screenshots/Pixel_Bloom_Mockup_2.png)
 
-- [Download Now](https://github.com/Jenil-Desai/Pixelbloom/releases/tag/v2.1.2)
+- [Download Now](https://github.com/Jenil-Desai/Pixelbloom/releases/tag/v3.7.1)
 
 ---
 
