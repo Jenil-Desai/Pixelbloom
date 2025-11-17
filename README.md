@@ -23,6 +23,12 @@
 **Description**:  
 Pixel Bloom offers a vibrant gallery of wallpapers for every mood and style. Whether you love scenic landscapes, abstract art, or minimalist designs, Pixel Bloom has you covered.
 
+**Backend Repository**: [GitHub](https://GitHub.com/Jenil-Desai/Pixelbloom-Backend)
+
+**Website Repository**: [GitHub](https://GitHub.com/Jenil-Desai/Pixelbloom-Website)
+
+**Website Live**: [Vercel](https://pixelbloom-website.vercel.app)
+
 ---
 
 ## 💻 Technologies
